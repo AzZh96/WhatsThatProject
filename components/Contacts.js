@@ -344,7 +344,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     padding: 20,
   },
-
   header: {
     flexDirection: "row",
     justifyContent: "space-between",

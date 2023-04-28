@@ -18,10 +18,21 @@ export default class App extends Component {
     );
   }
 }
+  render() {
+    return (
+      <NavigationContainer style={styles.container}>
+        <AuthStackNavigator />
+      </NavigationContainer>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
