@@ -1,0 +1,43 @@
+
+// .eslintrc.json
+{
+  "env": {
+      "browser": true,
+      "es6": true,
+      "node": true
+  },
+  "extends": [
+    "airbnb"
+    ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+      "ecmaFeatures": {
+          "classes": true
+      },
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+  },
+  "rules": {     
+      "linebreak-style": [
+          "error",
+          "windows"
+      ],
+      "quotes": [
+          "error",
+          "single"
+      ],
+      "semi": [
+          "error",
+          "always"
+      ],
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "react/destructuring-assignment": "off",
+      "react/prefer-stateless-function": [0, { "ignorePureComponents": true }],
+      "react/no-unstable-nested-components": [
+        "error",
+        {
+          "allowAsProps": true     
+        }
+      ]
+  }
+}
