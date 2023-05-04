@@ -13,6 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import * as EmailValidator from 'email-validator';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 import placeholderImage from '../assets/placeholder.png';
 
 const styles = StyleSheet.create({
@@ -230,7 +231,7 @@ export default class UserInfo extends Component {
         if (response.status === 200) {
           return response.json();
         } if (response.status === 401) {
-          throw new Error('You are not authorised to perform this action.', navigation.navigate('Login'));
+          throw new Error('Unauthorised');
         } else if (response.status === 404) {
           throw new Error('Something went wrong while fetching user data.');
         } else {
@@ -247,7 +248,19 @@ export default class UserInfo extends Component {
         });
       })
       .catch((error) => {
-        throw new Error(error);
+        // handle error response
+        if (error.message === 'Unauthorised') {
+          Toast.show({
+            type: 'error',
+            text1: 'Unauthorised',
+          });
+          navigation.navigate('Login');
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: error.message,
+          });
+        }
       });
   }
 
@@ -265,7 +278,7 @@ export default class UserInfo extends Component {
         if (response.status === 200) {
           return response.blob();
         } if (response.status === 401) {
-          throw new Error('You are not authorised to perform this action.', navigation.navigate('Login'));
+          throw new Error('Unauthorised');
         } else if (response.status === 404) {
           throw new Error('Something went wrong while fetching user photo.');
         } else {
@@ -280,7 +293,19 @@ export default class UserInfo extends Component {
         });
       })
       .catch((error) => {
-        throw new Error(error);
+        // handle error response
+        if (error.message === 'Unauthorised') {
+          Toast.show({
+            type: 'error',
+            text1: 'Unauthorised',
+          });
+          navigation.navigate('Login');
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: error.message,
+          });
+        }
       });
   }
 
@@ -317,9 +342,9 @@ export default class UserInfo extends Component {
         } if (response.status === 400) {
           throw new Error('Bad Request');
         } else if (response.status === 401) {
-          throw new Error('You are not authorised to perform this action.', navigation.navigate('Login'));
+          throw new Error('Unauthorised');
         } else if (response.status === 403) {
-          throw ('Forbidden', navigation.navigate('Login'));
+          throw new Error('Forbidden');
         } else if (response.status === 404) {
           throw new Error('Not Found.');
         } else {
@@ -332,7 +357,25 @@ export default class UserInfo extends Component {
         });
       })
       .catch((error) => {
-        throw new Error(error);
+        // handle error response
+        if (error.message === 'Unauthorised') {
+          Toast.show({
+            type: 'error',
+            text1: 'Unauthorised',
+          });
+          navigation.navigate('Login');
+        } else if (error.message === 'Forbidden') {
+          Toast.show({
+            type: 'error',
+            text1: 'Forbidden',
+          });
+          navigation.navigate('Login');
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: error.message,
+          });
+        }
       });
   }
 
@@ -368,7 +411,10 @@ export default class UserInfo extends Component {
         confirmPassword: '',
         isEditingPassword: false,
       }));
-
+      Toast.show({
+        type: 'success',
+        text1: 'Password Changed Successfully',
+      });
       this.handleSaveChanges();
     }
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 function Logout({ navigation }) {
   // Make the API request to log the user out
@@ -20,17 +21,31 @@ function Logout({ navigation }) {
           await AsyncStorage.removeItem('whatsthat_user_token');
           await AsyncStorage.removeItem('whatsthat_user_id');
           await AsyncStorage.removeItem('whatsthat_user_password');
+          throw new Error('Logged Out');
           // Navigate to the login screen
-          navigation.replace('Login');
         } else if (response.status === 401) {
           await AsyncStorage.removeItem('whatsthat_user_token');
           await AsyncStorage.removeItem('whatsthat_user_id');
           await AsyncStorage.removeItem('whatsthat_user_password');
-          navigation.replace('Login');
-          throw new Error('Unauthorised');
+          throw new Error('Logged Out');
         } else {
           throw new Error('Server Error');
         }
+      })
+      .catch((error) => {
+        // handle error response
+        if (error.message === 'Unauthorised') {
+          Toast.show({
+            type: 'error',
+            text1: 'Unauthorised',
+          });
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: error.message,
+          });
+        }
+        navigation.navigate('Login');
       });
   };
 
@@ -47,6 +62,7 @@ function Logout({ navigation }) {
 }
 Logout.propTypes = {
   navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
     replace: PropTypes.func.isRequired,
   }).isRequired,
 };

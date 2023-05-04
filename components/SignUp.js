@@ -11,6 +11,7 @@ import {
 import PropTypes from 'prop-types';
 import { Header } from 'react-native-elements';
 import * as EmailValidator from 'email-validator';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 const styles = StyleSheet.create({
   container: {
@@ -156,21 +157,27 @@ export default class SignUp extends Component {
     })
       .then((response) => {
         if (response.status === 201) {
+          Toast.show({
+            type: 'success',
+            text1: 'User Created',
+          });
           return response.json();
         } if (response.status === 400) {
-          throw new Error('Failed Validation.');
+          throw new Error('Bad Request.');
         } else {
           throw new Error('Something went wrong when signing up.');
         }
       })
       .then(() => {
-        this.setState({ error: 'User added successfully' });
         this.setState({ submitted: false });
         this.props.navigation.navigate('Login');
       })
       .catch((error) => {
         this.setState({ submitted: false });
-        throw new Error(error);
+        Toast.show({
+          type: 'error',
+          text1: error.message,
+        });
       });
   }
 
