@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: 'red',
     fontWeight: '900',
+    marginTop: 15,
   },
   confirmed: {
     alignItems: 'center',
@@ -189,8 +190,6 @@ export default class UserInfo extends Component {
     this.setState({
       isLoading: false,
     });
-    this.getUserData();
-    this.getUserPhoto();
   }
 
   componentWillUnmount() {
@@ -403,6 +402,7 @@ export default class UserInfo extends Component {
         error: 'Passwords do not match',
       });
     } else {
+      this.handleSaveChanges();
       this.setState((prevState) => ({
         error: '',
         confirmed: 'Password Changed Successfully',
@@ -415,7 +415,6 @@ export default class UserInfo extends Component {
         type: 'success',
         text1: 'Password Changed Successfully',
       });
-      this.handleSaveChanges();
     }
   }
 

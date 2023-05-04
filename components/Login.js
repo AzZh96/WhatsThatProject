@@ -93,9 +93,23 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      email: 'aaron@mmu.com',
-      password: 'Aaron!23',
+      email: '',
+      password: '',
     };
+  }
+
+  componentDidMount() {
+    this.unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.setState({
+        email: '',
+        password: '',
+        error: '',
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   login = async () => {
