@@ -98,20 +98,6 @@ export default class Login extends Component {
     };
   }
 
-  componentDidMount() {
-    this.unsubscribe = this.props.navigation.addListener('focus', () => {
-      this.setState({
-        email: '',
-        password: '',
-        error: '',
-      });
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
   login = async () => {
     if (!(this.state.email && this.state.password)) {
       this.setState({ error: 'Must enter email and password' });
